@@ -17,7 +17,8 @@ data class HeartRateColors(
     val secondaryText: Color,
     val secondaryBackground: Color,
     val tertiaryText: Color,
-    val tintColor: Color
+    val primaryTintColor: Color,
+    val secondaryTintColor: Color,
 )
 
 data class HeartRateTypography(
