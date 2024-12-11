@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.mvpheartrate.presentation.common.composable.HeartRateLinearProgressIndicator
 import com.example.mvpheartrate.presentation.common.composable.ScreenBackground
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.colors
@@ -28,7 +29,9 @@ import kotlinx.coroutines.delay
 import kotlin.random.Random
 
 @Composable
-fun LoadingScreen() {
+fun LoadingScreen(
+    navController: NavHostController
+) {
     var progress by remember {  mutableFloatStateOf(0.01f) }
     LaunchedEffect(key1 = Unit) {
         while (progress < 1f) {

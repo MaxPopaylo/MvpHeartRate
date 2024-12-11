@@ -15,18 +15,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.mvpheartrate.presentation.common.composable.HeartRateButton
 import com.example.mvpheartrate.presentation.common.composable.ScreenBackground
-import com.example.mvpheartrate.presentation.common.theme.MvpHeartRateTheme
 import com.example.mvpheartrate.presentation.screen.onboarding.composable.OnboardingPagerIndicator
 import com.example.mvpheartrate.presentation.screen.onboarding.composable.OnboardingPagerScreen
 import com.example.mvpheartrate.presentation.screen.onboarding.model.OnboardingPage
 import kotlinx.coroutines.launch
 
 @Composable
-fun OnboardingScreen() {
+fun OnboardingScreen(
+    navController: NavHostController
+) {
     val pages = listOf(
         OnboardingPage.First,
         OnboardingPage.Second,
@@ -88,10 +89,3 @@ fun OnboardingScreen() {
 }
 
 
-@Preview
-@Composable
-fun OnboardingScreenPre() {
-    MvpHeartRateTheme {
-        OnboardingScreen()
-    }
-}

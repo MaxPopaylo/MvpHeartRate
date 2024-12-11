@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.mvpheartrate.presentation.common.composable.ScreenBackground
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.colors
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.typography
@@ -19,7 +20,9 @@ import com.example.mvpheartrate.presentation.screen.homepage.composable.PulseMea
 
 
 @Composable
-fun HomepageScreen() {
+fun HomepageScreen(
+    navController: NavHostController
+) {
     ScreenBackground {
         Scaffold (
             topBar = { HomepageTopAppBar() }
