@@ -26,8 +26,8 @@ import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.typogra
 fun HeartRateLinearProgressIndicator(
     modifier: Modifier = Modifier,
     progress: Float,
-    progressColor: Color = colors.primaryTintColor,
-    backgroundColor: Color = colors.secondaryTintColor,
+    progressColor: Color = colors.primaryTint,
+    backgroundColor: Color = colors.secondaryTint,
     clipShape: Shape = RoundedCornerShape(16.dp)
 ) {
     Box(
