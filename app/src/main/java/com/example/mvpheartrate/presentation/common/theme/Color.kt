@@ -8,5 +8,6 @@ internal val baseColorPalette = HeartRateColors(
     secondaryBackground = Color(0xFFB2DEFB),
     secondaryText = Color(0xFF707070),
     tertiaryText = Color(0xFFFFFFFF),
-    tintColor = Color(0xFFFF6B6B)
+    primaryTint = Color(0xFFFF6B6B),
+    secondaryTint = Color(0xFFFFACAC)
 )
