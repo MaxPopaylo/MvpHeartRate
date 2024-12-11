@@ -13,7 +13,7 @@ import com.example.mvpheartrate.presentation.screen.loading.LoadingScreen
 import com.example.mvpheartrate.presentation.screen.onboarding.OnboardingScreen
 
 @Composable
-fun SetupNavGraph(navController: NavHostController) {
+fun GlobalNavGraph(navController: NavHostController) {
     NavHost(
         navController = navController,
         startDestination = NavScreens.LoadingScreen
@@ -60,9 +60,7 @@ fun SetupNavGraph(navController: NavHostController) {
                 fadeOut(tween(700))
             }
         ) {
-            HomepageScreen(
-                navController = navController
-            )
+            HomepageScreen()
         }
     }
 }

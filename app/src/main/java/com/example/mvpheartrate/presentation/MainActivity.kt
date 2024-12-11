@@ -9,7 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.mvpheartrate.presentation.common.navigation.SetupNavGraph
+import com.example.mvpheartrate.presentation.common.navigation.GlobalNavGraph
 import com.example.mvpheartrate.presentation.common.theme.MvpHeartRateTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,7 +29,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MvpHeartRateTheme {
                 val navController: NavHostController = rememberNavController()
-                SetupNavGraph(navController = navController)
+                GlobalNavGraph(navController = navController)
             }
         }
     }
