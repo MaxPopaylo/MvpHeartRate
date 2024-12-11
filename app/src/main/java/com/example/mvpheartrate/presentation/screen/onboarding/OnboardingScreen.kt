@@ -16,9 +16,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.mvpheartrate.presentation.common.composable.HeartRateButton
 import com.example.mvpheartrate.presentation.common.composable.ScreenBackground
+import com.example.mvpheartrate.presentation.common.navigation.NavScreens
 import com.example.mvpheartrate.presentation.screen.onboarding.composable.OnboardingPagerIndicator
 import com.example.mvpheartrate.presentation.screen.onboarding.composable.OnboardingPagerScreen
 import com.example.mvpheartrate.presentation.screen.onboarding.model.OnboardingPage
@@ -26,14 +29,15 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun OnboardingScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: OnboardingViewModel = hiltViewModel()
 ) {
     val pages = listOf(
         OnboardingPage.First,
         OnboardingPage.Second,
         OnboardingPage.Third
     )
-    val pagerState = rememberPagerState (pageCount = { 3 })
+    val pagerState = rememberPagerState (pageCount = { pages.size })
     val coroutineScope = rememberCoroutineScope()
     val buttonText = when (pages[pagerState.currentPage]) {
         OnboardingPage.First -> "Почати!"
@@ -79,6 +83,14 @@ fun OnboardingScreen(
                                         easing = LinearOutSlowInEasing
                                     )
                                 )
+                            } else {
+                                viewModel.updateIsOnboardingViewedState()
+                                navController.navigate(NavScreens.HomepageScreen) {
+                                    popUpTo(NavScreens.OnboardingScreen) {
+                                        inclusive = true
+                                    }
+                                    launchSingleTop = true
+                                }
                             }
                         }
                     }
