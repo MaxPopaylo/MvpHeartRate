@@ -1,80 +1,57 @@
 package com.example.mvpheartrate.presentation.screen.homepage
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.mvpheartrate.presentation.common.composable.ScreenBackground
-import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.colors
-import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.typography
-import com.example.mvpheartrate.presentation.screen.homepage.composable.PulseMeasurementScreen
+import com.example.mvpheartrate.presentation.common.navigation.HomepageNavGraph
+import com.example.mvpheartrate.presentation.screen.homepage.composable.HomepageTopAppBar
 
 
 @Composable
 fun HomepageScreen(
-    navController: NavHostController
+    navController: NavHostController = rememberNavController(),
+    viewModel: HomepageViewModel = hiltViewModel()
 ) {
+    val useTopInnerPadding = viewModel.useTopInnerPadding
     ScreenBackground {
         Scaffold (
-            topBar = { HomepageTopAppBar() }
-        ) { systemPadding ->
+            topBar = {
+                HomepageTopAppBar(
+                    navController = navController,
+                    onTopPaddingChange = { value ->
+                        viewModel.updateUseTopInnerPaddingState(value)
+                    }
+                )
+            }
+        ) { innerPadding ->
             ScreenBackground {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(systemPadding)
+                        .padding(
+                            top = if (useTopInnerPadding.value) innerPadding.calculateTopPadding() else 0.dp,
+                            start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
+                            end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
+                            bottom = innerPadding.calculateBottomPadding()
+                        )
                         .padding(16.dp)
                 ) {
-                    PulseMeasurementScreen()
+                    HomepageNavGraph(navController = navController)
                 }
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun HomepageTopAppBar() {
-    TopAppBar(
-        colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = colors.primaryTint,
-            titleContentColor = colors.tertiaryText
-        ),
-        title = {
-            Text(
-                text = "",
-                color = colors.tertiaryText,
-                style = typography.w400.copy(
-                    fontSize = 20.sp
-                )
-            )
-        },
-        actions = {
-            Text(
-                text = "Історія",
-                color = colors.tertiaryText,
-                style = typography.w400.copy(
-                    fontSize = 20.sp
-                )
-            )
-        },
-//        navigationIcon = {
-//            Text(
-//                text = "Title",
-//                color = colors.tertiaryText,
-//                style = typography.w400.copy(
-//                    fontSize = 20.sp
-//                )
-//            )
-//        }
-    )
-}
+
