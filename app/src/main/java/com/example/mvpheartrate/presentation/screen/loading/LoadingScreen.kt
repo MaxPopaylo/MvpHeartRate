@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mvpheartrate.presentation.common.composable.HeartRateLinearProgressIndicator
@@ -54,8 +53,7 @@ fun LoadingScreen() {
                     modifier = Modifier
                         .fillMaxWidth(0.8f),
                     painter = images.logo,
-                    contentDescription = "Logo",
-                    contentScale = ContentScale.Crop
+                    contentDescription = "Logo"
                 )
                 Text(
                     text = "Heart Rate",

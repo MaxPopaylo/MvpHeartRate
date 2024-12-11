@@ -61,7 +61,7 @@ fun OnboardingScreen() {
                     .weight(1f)
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Bottom
             ) {
                 OnboardingPagerIndicator(pagerState)
 
