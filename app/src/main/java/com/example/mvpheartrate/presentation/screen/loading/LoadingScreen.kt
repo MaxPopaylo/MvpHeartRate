@@ -11,17 +11,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.mvpheartrate.presentation.common.composable.HeartRateLinearProgressIndicator
 import com.example.mvpheartrate.presentation.common.composable.ScreenBackground
+import com.example.mvpheartrate.presentation.common.navigation.NavScreens
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.colors
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.images
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.typography
@@ -30,15 +28,28 @@ import kotlin.random.Random
 
 @Composable
 fun LoadingScreen(
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: LoadingViewModel = hiltViewModel()
 ) {
-    var progress by remember {  mutableFloatStateOf(0.01f) }
+    val progress = viewModel.loadingProgress
+    val nextDestination = viewModel.nextDestination
+
     LaunchedEffect(key1 = Unit) {
-        while (progress < 1f) {
-            progress += 0.01f
+        while (progress.value < 1f) {
+            viewModel.updateLoadingProgress(progress.value + 0.01f)
             delay(Random.nextLong(10, 201))
         }
+
+        if (progress.value > 0.99f) {
+            navController.navigate(nextDestination.value) {
+                popUpTo(NavScreens.LoadingScreen) {
+                    inclusive = true
+                }
+                launchSingleTop = true
+            }
+        }
     }
+
     ScreenBackground {
         Column(
             modifier = Modifier
@@ -74,7 +85,7 @@ fun LoadingScreen(
                 contentAlignment = Alignment.Center
             ) {
                 HeartRateLinearProgressIndicator(
-                    progress = progress,
+                    progress = progress.value,
                 )
             }
 

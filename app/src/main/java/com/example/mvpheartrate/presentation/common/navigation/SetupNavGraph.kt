@@ -1,6 +1,7 @@
 package com.example.mvpheartrate.presentation.common.navigation
 
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.runtime.Composable
@@ -19,13 +20,12 @@ fun SetupNavGraph(navController: NavHostController) {
     ) {
         composable<NavScreens.LoadingScreen>(
             enterTransition = {
-                return@composable  slideInVertically(
-                    initialOffsetY = { it },
+                return@composable  fadeIn(
                     animationSpec = tween(1000)
                 )
             },
             exitTransition = {
-                fadeOut(tween(1000))
+                fadeOut(tween(700))
             }
         ) {
             LoadingScreen(
@@ -36,12 +36,12 @@ fun SetupNavGraph(navController: NavHostController) {
         composable<NavScreens.OnboardingScreen>(
             enterTransition = {
                 return@composable  slideInVertically(
-                    initialOffsetY = { it },
+                    initialOffsetY = { -it },
                     animationSpec = tween(1000)
                 )
             },
             exitTransition = {
-                fadeOut(tween(1000))
+                fadeOut(tween(700))
             }
         ) {
             OnboardingScreen(
@@ -52,12 +52,12 @@ fun SetupNavGraph(navController: NavHostController) {
         composable<NavScreens.HomepageScreen>(
             enterTransition = {
                 return@composable  slideInVertically(
-                    initialOffsetY = { it },
+                    initialOffsetY = { -it },
                     animationSpec = tween(1000)
                 )
             },
             exitTransition = {
-                fadeOut(tween(1000))
+                fadeOut(tween(700))
             }
         ) {
             HomepageScreen(
