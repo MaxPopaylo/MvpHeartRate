@@ -1,5 +1,6 @@
 package com.example.mvpheartrate.presentation.screen.loading
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 
 import androidx.compose.foundation.layout.Arrangement
@@ -7,12 +8,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,9 +27,15 @@ import com.example.mvpheartrate.presentation.common.navigation.NavScreens
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.colors
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.images
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.typography
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
+@SuppressLint("PermissionLaunchedDuringComposition")
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun LoadingScreen(
     navController: NavHostController,
@@ -33,6 +43,13 @@ fun LoadingScreen(
 ) {
     val progress = viewModel.loadingProgress
     val nextDestination = viewModel.nextDestination
+    val cameraPermissionState: PermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
+
+    LaunchedEffect(cameraPermissionState.status) {
+        if (!cameraPermissionState.status.isGranted) {
+            cameraPermissionState.launchPermissionRequest()
+        }
+    }
 
     LaunchedEffect(key1 = Unit) {
         while (progress.value < 1f) {
@@ -63,12 +80,22 @@ fun LoadingScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(
-                    modifier = Modifier
-                        .fillMaxWidth(0.8f),
-                    painter = images.logo,
-                    contentDescription = "Logo"
-                )
+                Box {
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f).alpha(0.25f)
+                            .offset(x = 2.dp, y = 4.dp)
+                            .blur(1.dp),
+                        painter = images.logo,
+                        contentDescription = "Logo"
+                    )
+                    Image(
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f),
+                        painter = images.logo,
+                        contentDescription = "Logo"
+                    )
+                }
                 Text(
                     text = "Heart Rate",
                     color = colors.primaryText,
