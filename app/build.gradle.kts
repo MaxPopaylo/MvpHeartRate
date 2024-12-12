@@ -49,6 +49,7 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "/META-INF/rxjava.properties"
         }
     }
 }
@@ -58,6 +59,19 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+
+    // MARK: - Accompanist (permission)
+    implementation (libs.accompanist.permissions)
+
+    // MARK: - HeartRateMeasurement
+    implementation (libs.heart.rate.ometer)
+    implementation (libs.kalmanrx)
+    implementation (libs.rxjava)
+
+    // MARK: - CameraX
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
 
     // MARK: - Navigation
     implementation(libs.androidx.navigation.ui.ktx)
