@@ -29,11 +29,18 @@ import com.example.mvpheartrate.presentation.common.navigation.HomePageScreens
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.colors
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.images
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.typography
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun WaitingScreen(
     navController: NavHostController
 ) {
+    val cameraPermissionState: PermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -60,11 +67,10 @@ fun WaitingScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = images.logo,
-                    contentDescription = "Logo",
-
                     modifier = Modifier
                         .fillMaxWidth(0.8f),
+                    painter = images.logo,
+                    contentDescription = "Logo"
                 )
             }
         }
@@ -80,7 +86,10 @@ fun WaitingScreen(
                 modifier = Modifier
                     .fillMaxSize(),
                 onClick = {
-                    navController.navigate(HomePageScreens.PulseMeasurementScreen)
+
+                    if (cameraPermissionState.status.isGranted) {
+                        navController.navigate(HomePageScreens.PulseMeasurementScreen)
+                    }
                 }
             ) {
                 Box (

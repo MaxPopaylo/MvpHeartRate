@@ -63,8 +63,8 @@ fun HomepageTopAppBar(
 
     AnimatedVisibility(
         visible = topBarDestination,
-        enter = fadeIn(animationSpec = tween(300)) + slideInVertically(initialOffsetY = { -it }),
-        exit = fadeOut(animationSpec = tween(700)) + slideOutVertically(targetOffsetY = { -it })
+        enter = fadeIn(animationSpec = tween(500)) + slideInVertically(initialOffsetY = { -it }),
+        exit = fadeOut(animationSpec = tween(1000)) + slideOutVertically(targetOffsetY = { -it })
     ) {
         TopAppBar(
             windowInsets  = WindowInsets(

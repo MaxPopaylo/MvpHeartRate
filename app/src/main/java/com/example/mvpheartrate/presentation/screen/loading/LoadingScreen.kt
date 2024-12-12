@@ -80,22 +80,12 @@ fun LoadingScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Box {
-                    Image(
-                        modifier = Modifier
-                            .fillMaxWidth(0.8f).alpha(0.25f)
-                            .offset(x = 2.dp, y = 4.dp)
-                            .blur(1.dp),
-                        painter = images.logo,
-                        contentDescription = "Logo"
-                    )
-                    Image(
-                        modifier = Modifier
-                            .fillMaxWidth(0.8f),
-                        painter = images.logo,
-                        contentDescription = "Logo"
-                    )
-                }
+                Image(
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f),
+                    painter = images.logo,
+                    contentDescription = "Logo"
+                )
                 Text(
                     text = "Heart Rate",
                     color = colors.primaryText,
