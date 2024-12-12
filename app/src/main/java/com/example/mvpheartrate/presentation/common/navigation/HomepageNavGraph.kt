@@ -25,11 +25,11 @@ fun HomepageNavGraph(
         composable<HomePageScreens.WaitingScreen>(
             enterTransition = {
                 return@composable  fadeIn(
-                    animationSpec = tween(1000)
+                    animationSpec = tween(700)
                 )
             },
             exitTransition = {
-                fadeOut(tween(700))
+                fadeOut(tween(500))
             }
         ) {
             WaitingScreen(
@@ -39,15 +39,15 @@ fun HomepageNavGraph(
 
         composable<HomePageScreens.PulseMeasurementScreen>(
             enterTransition = {
-                return@composable  slideInVertically(
-                    initialOffsetY = { -it },
-                    animationSpec = tween(1000)
+                return@composable  fadeIn(
+                    animationSpec = tween(700)
                 )
             },
             exitTransition = {
-                fadeOut(tween(700))
+                fadeOut(tween(500))
             }
         ) {
+
             PulseMeasurementScreen(
                 navController = navController
             )
@@ -55,13 +55,12 @@ fun HomepageNavGraph(
 
         composable<HomePageScreens.ResultScreen>(
             enterTransition = {
-                return@composable  slideInVertically(
-                    initialOffsetY = { -it },
-                    animationSpec = tween(1000)
+                return@composable  fadeIn(
+                    animationSpec = tween(700)
                 )
             },
             exitTransition = {
-                fadeOut(tween(700))
+                fadeOut(tween(500))
             }
         ) {
 
@@ -69,13 +68,12 @@ fun HomepageNavGraph(
 
         composable<HomePageScreens.ResultListScreen>(
             enterTransition = {
-                return@composable  slideInVertically(
-                    initialOffsetY = { -it },
-                    animationSpec = tween(1000)
+                return@composable  fadeIn(
+                    animationSpec = tween(700)
                 )
             },
             exitTransition = {
-                fadeOut(tween(700))
+                fadeOut(tween(500))
             }
         ) {
 

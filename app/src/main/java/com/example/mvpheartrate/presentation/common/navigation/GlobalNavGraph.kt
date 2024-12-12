@@ -21,11 +21,11 @@ fun GlobalNavGraph(navController: NavHostController) {
         composable<NavScreens.LoadingScreen>(
             enterTransition = {
                 return@composable  fadeIn(
-                    animationSpec = tween(1000)
+                    animationSpec = tween(700)
                 )
             },
             exitTransition = {
-                fadeOut(tween(700))
+                fadeOut(tween(500))
             }
         ) {
             LoadingScreen(
@@ -35,13 +35,12 @@ fun GlobalNavGraph(navController: NavHostController) {
 
         composable<NavScreens.OnboardingScreen>(
             enterTransition = {
-                return@composable  slideInVertically(
-                    initialOffsetY = { -it },
-                    animationSpec = tween(1000)
+                return@composable  fadeIn(
+                    animationSpec = tween(700)
                 )
             },
             exitTransition = {
-                fadeOut(tween(700))
+                fadeOut(tween(500))
             }
         ) {
             OnboardingScreen(
@@ -51,13 +50,12 @@ fun GlobalNavGraph(navController: NavHostController) {
 
         composable<NavScreens.HomepageScreen>(
             enterTransition = {
-                return@composable  slideInVertically(
-                    initialOffsetY = { -it },
-                    animationSpec = tween(1000)
+                return@composable  fadeIn(
+                    animationSpec = tween(700)
                 )
             },
             exitTransition = {
-                fadeOut(tween(700))
+                fadeOut(tween(500))
             }
         ) {
             HomepageScreen()
