@@ -17,8 +17,11 @@ class HeartRateMonitorImpl: HeartRateMonitor {
 
     private var bpmList = mutableListOf<Int>()
     private var lastBpm = 0
-    private var timer: CountDownTimer? = null
     private var result = 0
+    private var timer: CountDownTimer? = null
+
+    private var timerProgress = 0
+    private var timerMaxSeconds: Long = 15L
 
     private var bpmUpdates: Disposable? = null
 
@@ -28,11 +31,12 @@ class HeartRateMonitorImpl: HeartRateMonitor {
     }
 
      override suspend fun subscribe(
-         coroutineScope: CoroutineScope,
+        coroutineScope: CoroutineScope,
         surfaceView: SurfaceView,
+        onResult: (BpmData) -> Unit,
         onBpmStateChange: (Int) -> Unit,
         onFingerDetectedState: (Boolean) -> Unit,
-        onResult: (BpmData) -> Unit
+        onTimerProgress: (Pair<Long, Int>) -> Unit
     ) {
         bpmList.clear()
         timer?.cancel()
@@ -52,6 +56,9 @@ class HeartRateMonitorImpl: HeartRateMonitor {
                          startCounting(
                              onResult = {
                                  onResult(it)
+                             },
+                             onTimerProgress = {
+                                 onTimerProgress(it)
                              }
                          )
                      } else {
@@ -80,27 +87,31 @@ class HeartRateMonitorImpl: HeartRateMonitor {
     }
 
     private fun startCounting(
-        onResult: (BpmData) -> Unit
+        onResult: (BpmData) -> Unit,
+        onTimerProgress: (Pair<Long, Int>) -> Unit
     ) {
-        timer = object : CountDownTimer(15000, 1000) {
+        val maxTime = timerMaxSeconds * 1000
+        timer = object : CountDownTimer(maxTime, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 if (lastBpm != 0) {
                     bpmList.add(lastBpm)
-                    Log.d("HeartRateMeasurement", "BPM: $bpmList")
                 }
+
+                timerProgress += 1
+                onTimerProgress(Pair(timerMaxSeconds, timerProgress))
             }
 
             override fun onFinish() {
                 result = bpmList.average().toInt()
                 onResult(createBpmData(result))
                 dispose()
-                Log.d("HeartRateMeasurement", "Result: $result")
             }
         }.start()
     }
 
     private fun reset() {
         result = 0
+        timerProgress = 0
         bpmList.clear()
         timer?.cancel()
     }

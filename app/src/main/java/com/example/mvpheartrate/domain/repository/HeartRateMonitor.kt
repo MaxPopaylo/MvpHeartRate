@@ -8,9 +8,10 @@ interface HeartRateMonitor {
     suspend fun subscribe(
         coroutineScope: CoroutineScope,
         surfaceView: SurfaceView,
+        onResult: (BpmData) -> Unit,
         onBpmStateChange: (Int) -> Unit,
         onFingerDetectedState: (Boolean) -> Unit,
-        onResult: (BpmData) -> Unit
+        onTimerProgress: (Pair<Long, Int>) -> Unit
     )
 
     suspend fun unsubscribe()

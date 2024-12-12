@@ -1,6 +1,7 @@
 package com.example.mvpheartrate.presentation.screen.homepage.pulse_measurment.composable
 
 import androidx.compose.animation.core.animate
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -29,35 +30,42 @@ import androidx.compose.ui.unit.sp
 import com.example.mvpheartrate.R
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.colors
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.typography
+import kotlinx.coroutines.delay
 
 @Composable
 fun HeartRateDisplay(
     modifier: Modifier = Modifier,
     isAnimated: Boolean,
-    bpmCounter: String
+    bpmCounter: Int
 ) {
     val bpm by animateIntAsState(
-        targetValue = if (bpmCounter.isBlank()) 0 else bpmCounter.toInt(),
+        targetValue = bpmCounter,
         animationSpec = tween(durationMillis = 600),
         label = ""
     )
     var scale by remember { mutableFloatStateOf(1f) }
+    val textSize by animateFloatAsState(
+        targetValue = if (scale > 1f) 70f else 62f,
+        animationSpec = tween(durationMillis = 300),
+        label = ""
+    )
 
     LaunchedEffect(isAnimated) {
         while (isAnimated) {
             animate(
                 initialValue = 1f,
-                targetValue = 1.01f,
+                targetValue = 1.02f,
                 animationSpec = tween(durationMillis = 300),
                 block = { value, _ -> scale = value }
             )
 
             animate(
-                initialValue = 1.01f,
+                initialValue = 1.02f,
                 targetValue = 1f,
                 animationSpec = tween(durationMillis = 300),
                 block = { value, _ -> scale = value }
             )
+            delay(500)
         }
     }
 
@@ -83,7 +91,6 @@ fun HeartRateDisplay(
                     .blur(
                         radius = 36.dp
                     )
-                    .graphicsLayer(scaleX = scale, scaleY = scale)
             )
         }
 
@@ -94,10 +101,10 @@ fun HeartRateDisplay(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = if (bpmCounter.isBlank()) "--" else "$bpm",
+                text = if (bpmCounter == 0) "--" else "$bpm",
                 color = colors.tertiaryText,
                 style = typography.w700.copy(
-                    fontSize = 62.sp
+                    fontSize = textSize.sp
                 ),
                 textAlign = TextAlign.Center
             )
