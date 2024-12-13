@@ -11,9 +11,11 @@ import androidx.room.Room
 import com.example.mvpheartrate.data.PreferencesKeys.ONBOARDING_PREFERENCES
 import com.example.mvpheartrate.data.local.db.AppDatabase
 import com.example.mvpheartrate.data.local.repository.OnboardingManagerImpl
+import com.example.mvpheartrate.data.local.repository.ResultHistoryManagerImpl
 import com.example.mvpheartrate.data.util.HeartRateMonitorImpl
 import com.example.mvpheartrate.domain.repository.HeartRateMonitor
 import com.example.mvpheartrate.domain.repository.OnboardingManager
+import com.example.mvpheartrate.domain.repository.ResultHistoryManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,6 +28,11 @@ import javax.inject.Singleton
 object MainModule {
 
     // MARK: - Repository implementation modules
+    @Provides
+    @Singleton
+    fun provideResultHistoryManager(database: AppDatabase): ResultHistoryManager =
+        ResultHistoryManagerImpl(database)
+
     @Provides
     @Singleton
     fun provideHeartRateMonitor(): HeartRateMonitor =
