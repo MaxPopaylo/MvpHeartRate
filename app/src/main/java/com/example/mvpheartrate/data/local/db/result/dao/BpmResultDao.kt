@@ -13,7 +13,7 @@ interface BpmResultDao {
     suspend fun insert(items: BpmResultEntity)
 
     @Query("SELECT * FROM result_history")
-    suspend fun getAll(): Flow<List<BpmResultEntity>>
+    fun getAll(): Flow<List<BpmResultEntity>>
 
     @Query("DELETE FROM result_history")
     suspend fun clearAll()

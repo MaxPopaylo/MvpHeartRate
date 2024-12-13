@@ -8,7 +8,8 @@ import com.example.mvpheartrate.data.local.db.result.model.BpmResultEntity
 
 @Database(
     entities = [BpmResultEntity::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {
