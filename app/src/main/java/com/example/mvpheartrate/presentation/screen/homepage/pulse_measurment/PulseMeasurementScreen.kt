@@ -38,7 +38,7 @@ fun PulseMeasurementScreen(
     LaunchedEffect(viewModel) {
         viewModel.bpmResult.collect { result ->
             if (result.bpm > 0) {
-                navController.navigate(HomePageScreens.ResultScreen) {
+                navController.navigate(HomePageScreens.ResultScreen(result)) {
                     popUpTo(HomePageScreens.PulseMeasurementScreen) {
                         inclusive = true
                     }
