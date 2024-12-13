@@ -1,4 +1,4 @@
-package com.example.mvpheartrate.data.local.storage
+package com.example.mvpheartrate.data.local.repository
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

@@ -10,7 +10,7 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.example.mvpheartrate.data.PreferencesKeys.ONBOARDING_PREFERENCES
 import com.example.mvpheartrate.data.local.db.AppDatabase
-import com.example.mvpheartrate.data.local.storage.OnboardingManagerImpl
+import com.example.mvpheartrate.data.local.repository.OnboardingManagerImpl
 import com.example.mvpheartrate.data.util.HeartRateMonitorImpl
 import com.example.mvpheartrate.domain.repository.HeartRateMonitor
 import com.example.mvpheartrate.domain.repository.OnboardingManager
