@@ -2,7 +2,6 @@ package com.example.mvpheartrate.presentation.screen.loading
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,6 +40,10 @@ fun LoadingScreen(
     val progress = viewModel.loadingProgress
     val nextDestination = viewModel.nextDestination
     val cameraPermissionState: PermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
+
+    LaunchedEffect(Unit) {
+        viewModel.updateDestinationRoute()
+    }
 
     LaunchedEffect(cameraPermissionState.status) {
         if (!cameraPermissionState.status.isGranted) {

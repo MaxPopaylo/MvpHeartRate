@@ -8,8 +8,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.example.mvpheartrate.data.PreferencesKeys.ONBOARDING_PREFERENCES
+import com.example.mvpheartrate.data.local.storage.OnboardingManagerImpl
 import com.example.mvpheartrate.data.util.HeartRateMonitorImpl
 import com.example.mvpheartrate.domain.repository.HeartRateMonitor
+import com.example.mvpheartrate.domain.repository.OnboardingManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,10 +23,20 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object MainModule {
 
+    // MARK: - Repository implementation modules
+
     @Provides
     @Singleton
     fun provideHeartRateMonitor(): HeartRateMonitor =
         HeartRateMonitorImpl()
+
+    @Provides
+    @Singleton
+    fun provideOnboardingManager(dataStore: DataStore<Preferences>): OnboardingManager =
+        OnboardingManagerImpl(dataStore)
+
+
+    // MARK: - DataStorePreferences
 
     @Provides
     @Singleton
