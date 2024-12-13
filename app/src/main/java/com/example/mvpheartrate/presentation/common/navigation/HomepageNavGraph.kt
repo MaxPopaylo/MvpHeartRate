@@ -7,8 +7,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
+import com.example.mvpheartrate.domain.models.BpmData
 import com.example.mvpheartrate.presentation.screen.homepage.pulse_measurment.PulseMeasurementScreen
 import com.example.mvpheartrate.presentation.screen.homepage.waiting.WaitingScreen
+import com.example.mvpheartrate.presentation.screen.result.ResultScreen
+import kotlin.reflect.typeOf
+
 @Composable
 fun HomepageNavGraph(
     navController: NavHostController
@@ -19,12 +24,14 @@ fun HomepageNavGraph(
     ) {
         composable<HomePageScreens.WaitingScreen>(
             enterTransition = {
-                return@composable  fadeIn(
+                return@composable fadeIn(
                     animationSpec = tween(700)
                 )
             },
             exitTransition = {
-                fadeOut(tween(500))
+                return@composable fadeOut(
+                    animationSpec = tween(500)
+                )
             }
         ) {
             WaitingScreen(
@@ -34,12 +41,19 @@ fun HomepageNavGraph(
 
         composable<HomePageScreens.PulseMeasurementScreen>(
             enterTransition = {
-                return@composable  fadeIn(
+                return@composable fadeIn(
                     animationSpec = tween(700)
                 )
             },
             exitTransition = {
-                fadeOut(tween(500))
+                return@composable fadeOut(
+                    animationSpec = tween(500)
+                )
+            },
+            popExitTransition = {
+                return@composable fadeOut(
+                    animationSpec = tween(500)
+                )
             }
         ) {
 
@@ -55,10 +69,19 @@ fun HomepageNavGraph(
                 )
             },
             exitTransition = {
-                fadeOut(tween(500))
-            }
+                return@composable fadeOut(
+                    animationSpec = tween(500)
+                )
+            },
+            typeMap = mapOf(
+                typeOf<BpmData>() to BpmDataNavType
+            )
         ) {
-
+            val args = it.toRoute<HomePageScreens.ResultScreen>()
+            ResultScreen(
+                bpmData = args.result,
+                navController = navController
+            )
         }
 
         composable<HomePageScreens.ResultListScreen>(
@@ -68,7 +91,9 @@ fun HomepageNavGraph(
                 )
             },
             exitTransition = {
-                fadeOut(tween(500))
+                return@composable fadeOut(
+                    animationSpec = tween(500)
+                )
             }
         ) {
 
