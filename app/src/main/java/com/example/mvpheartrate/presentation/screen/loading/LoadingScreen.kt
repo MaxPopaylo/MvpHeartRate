@@ -54,7 +54,7 @@ fun LoadingScreen(
     LaunchedEffect(key1 = Unit) {
         while (progress.value < 1f) {
             viewModel.updateLoadingProgress(progress.value + 0.01f)
-            delay(Random.nextLong(10, 201))
+            delay(Random.nextLong(10, 101))
         }
 
         if (progress.value > 0.99f) {

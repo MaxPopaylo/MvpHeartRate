@@ -1,11 +1,14 @@
 package com.example.mvpheartrate.presentation.common.composable
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.colors
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.typography
@@ -17,7 +20,12 @@ fun HeartRateButton(
     onClick: () -> Unit
 ) {
     Button(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = colors.primaryTint,
+                shape = RoundedCornerShape(25.dp)
+            ),
         onClick = { onClick() },
         colors = ButtonColors(
             containerColor = colors.primaryTint,

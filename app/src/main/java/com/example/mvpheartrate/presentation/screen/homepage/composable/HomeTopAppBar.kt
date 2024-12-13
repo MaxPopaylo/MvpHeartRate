@@ -4,8 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material.icons.Icons
@@ -37,13 +35,13 @@ fun HomepageTopAppBar(
     val currentRoute = navBackStackEntry?.destination?.route
 
     val title = when(currentRoute) {
-        HomePageScreens.ResultScreen::class.qualifiedName -> "Результат"
+        HomePageScreens.ResultScreen::class.qualifiedName + "/{result}" -> "Результат"
         HomePageScreens.ResultListScreen::class.qualifiedName -> "Історія"
         else -> ""
     }
 
     val isHaveActions: Boolean = when(currentRoute) {
-        HomePageScreens.ResultScreen::class.qualifiedName -> true
+        HomePageScreens.ResultScreen::class.qualifiedName + "/{result}" -> true
         HomePageScreens.WaitingScreen::class.qualifiedName -> true
         else -> false
     }
@@ -55,17 +53,13 @@ fun HomepageTopAppBar(
 
     val topBarDestination = listOf(
         HomePageScreens.WaitingScreen::class.qualifiedName,
-        HomePageScreens.ResultScreen::class.qualifiedName,
+        HomePageScreens.ResultScreen::class.qualifiedName + "/{result}",
         HomePageScreens.ResultListScreen::class.qualifiedName
     ).contains(currentRoute)
 
     onTopPaddingChange(topBarDestination)
 
-    AnimatedVisibility(
-        visible = topBarDestination,
-        enter = fadeIn(animationSpec = tween(500)) + slideInVertically(initialOffsetY = { -it }),
-        exit = fadeOut(animationSpec = tween(1000)) + slideOutVertically(targetOffsetY = { -it })
-    ) {
+    if (topBarDestination) {
         TopAppBar(
             windowInsets  = WindowInsets(
                 top = 0.dp,
