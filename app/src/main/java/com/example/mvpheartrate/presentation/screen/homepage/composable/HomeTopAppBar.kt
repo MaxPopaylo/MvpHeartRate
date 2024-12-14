@@ -61,10 +61,6 @@ fun HomepageTopAppBar(
 
     if (topBarDestination) {
         TopAppBar(
-            windowInsets  = WindowInsets(
-                top = 0.dp,
-                bottom = 0.dp
-            ),
             colors = TopAppBarDefaults.mediumTopAppBarColors(
                 containerColor = colors.primaryTint,
                 titleContentColor = colors.tertiaryText

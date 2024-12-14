@@ -63,7 +63,7 @@ object MainModule {
         return Room.databaseBuilder(
             context = context,
             klass = AppDatabase::class.java,
-            name = "app.dp"
+            name = "heart_rate.dp"
         ).fallbackToDestructiveMigration().build()
     }
 

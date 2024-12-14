@@ -12,6 +12,7 @@ import com.example.mvpheartrate.domain.models.BpmData
 import com.example.mvpheartrate.presentation.screen.homepage.pulse_measurment.PulseMeasurementScreen
 import com.example.mvpheartrate.presentation.screen.homepage.waiting.WaitingScreen
 import com.example.mvpheartrate.presentation.screen.result.ResultScreen
+import com.example.mvpheartrate.presentation.screen.result_history.ResultHistoryScreen
 import kotlin.reflect.typeOf
 
 @Composable
@@ -24,13 +25,18 @@ fun HomepageNavGraph(
     ) {
         composable<HomePageScreens.WaitingScreen>(
             enterTransition = {
-                return@composable fadeIn(
-                    animationSpec = tween(700)
+                return@composable  fadeIn(
+                    animationSpec = tween(500)
                 )
             },
             exitTransition = {
                 return@composable fadeOut(
-                    animationSpec = tween(500)
+                    animationSpec = tween(300)
+                )
+            },
+            popExitTransition = {
+                return@composable fadeOut(
+                    animationSpec = tween(300)
                 )
             }
         ) {
@@ -41,18 +47,18 @@ fun HomepageNavGraph(
 
         composable<HomePageScreens.PulseMeasurementScreen>(
             enterTransition = {
-                return@composable fadeIn(
-                    animationSpec = tween(700)
+                return@composable  fadeIn(
+                    animationSpec = tween(500)
                 )
             },
             exitTransition = {
                 return@composable fadeOut(
-                    animationSpec = tween(500)
+                    animationSpec = tween(300)
                 )
             },
             popExitTransition = {
                 return@composable fadeOut(
-                    animationSpec = tween(500)
+                    animationSpec = tween(300)
                 )
             }
         ) {
@@ -65,12 +71,17 @@ fun HomepageNavGraph(
         composable<HomePageScreens.ResultScreen>(
             enterTransition = {
                 return@composable  fadeIn(
-                    animationSpec = tween(700)
+                    animationSpec = tween(500)
                 )
             },
             exitTransition = {
                 return@composable fadeOut(
-                    animationSpec = tween(500)
+                    animationSpec = tween(300)
+                )
+            },
+            popExitTransition = {
+                return@composable fadeOut(
+                    animationSpec = tween(300)
                 )
             },
             typeMap = mapOf(
@@ -87,16 +98,21 @@ fun HomepageNavGraph(
         composable<HomePageScreens.ResultListScreen>(
             enterTransition = {
                 return@composable  fadeIn(
-                    animationSpec = tween(700)
+                    animationSpec = tween(500)
                 )
             },
             exitTransition = {
                 return@composable fadeOut(
-                    animationSpec = tween(500)
+                    animationSpec = tween(300)
+                )
+            },
+            popExitTransition = {
+                return@composable fadeOut(
+                    animationSpec = tween(300)
                 )
             }
         ) {
-
+            ResultHistoryScreen()
         }
     }
 }

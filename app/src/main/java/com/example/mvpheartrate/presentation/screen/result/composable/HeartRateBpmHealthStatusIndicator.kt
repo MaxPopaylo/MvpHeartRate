@@ -68,7 +68,7 @@ fun HeartRateBpmHealthStatusIndicator(
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .width(8.dp)
+                    .width(6.dp)
                     .background(
                         color = colors.primaryBackground,
                         shape = clipShape

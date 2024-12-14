@@ -3,6 +3,7 @@ package com.example.mvpheartrate.presentation.screen.homepage.pulse_measurment
 import android.view.SurfaceView
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -33,14 +34,18 @@ class PulseMeasurementViewModel @Inject constructor(
     private val resultChannel = Channel<BpmData>()
     val bpmResult = resultChannel.receiveAsFlow()
 
-    private val _loadingProgress: MutableState<Float> = mutableStateOf(0.01f)
+    private val _loadingProgress: MutableState<Float> = mutableFloatStateOf(0.01f)
     val loadingProgress: State<Float> = _loadingProgress
 
     private val _showResultState: MutableState<Boolean> = mutableStateOf(false)
     val showResultState: State<Boolean> = _showResultState
 
+    private val _isVisible: MutableState<Boolean> = mutableStateOf(false)
+    val isVisible: State<Boolean> = _isVisible
+
     fun startHeartRateMeasurement(surfaceView: SurfaceView) {
         viewModelScope.launch {
+            delay(500)
             heartRateMonitor.subscribe(
                 coroutineScope = viewModelScope,
                 surfaceView = surfaceView,
@@ -97,6 +102,10 @@ class PulseMeasurementViewModel @Inject constructor(
     fun clearStats() {
         _loadingProgress.value = 0.01f
         _bpmFlow.update { 0 }
+    }
+
+    fun updateIsVisible(value: Boolean) {
+        _isVisible.value = value
     }
 
 
