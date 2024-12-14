@@ -61,7 +61,7 @@ fun ResultListCard(
                     text = "${bpmData.bpm} BPM",
                     color = colors.primaryText,
                     style = typography.w400.copy(
-                        fontSize = 32.sp
+                        fontSize = 30.sp
                     )
                 )
             }
@@ -88,14 +88,14 @@ fun ResultListCard(
                         text = LocalDateTimeFormatter.getTime(bpmData.time),
                         color = colors.secondaryText,
                         style = typography.w400.copy(
-                            fontSize = 20.sp
+                            fontSize = 18.sp
                         )
                     )
                     Text(
                         text = LocalDateTimeFormatter.getDate(bpmData.time),
                         color = colors.secondaryText,
                         style = typography.w400.copy(
-                            fontSize = 20.sp
+                            fontSize = 18.sp
                         )
                     )
                 }

@@ -78,7 +78,7 @@ fun ResultHistoryScreen(
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "There is nothing here yet",
+                                text = "Тут нічого немає ще..",
                                 color = colors.primaryText,
                                 style = typography.w600.copy(
                                     fontSize = 24.sp

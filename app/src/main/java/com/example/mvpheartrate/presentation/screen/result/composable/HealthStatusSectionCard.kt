@@ -55,7 +55,7 @@ fun HealthStatusSectionCard(
                 text = section.text,
                 color = colors.primaryText,
                 style = typography.w500.copy(
-                    fontSize = 12.sp
+                    fontSize = 10.sp
                 )
             )
         }
