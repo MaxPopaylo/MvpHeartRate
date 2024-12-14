@@ -10,13 +10,13 @@ class Converters {
 
     @TypeConverter
     fun fromLocalDateTime(value: LocalDateTime?): Long? {
-        return value?.atZone(ZoneOffset.UTC)?.toEpochSecond()
+        return value?.toEpochSecond(ZoneOffset.ofTotalSeconds(value.second))
     }
 
     @TypeConverter
     fun toLocalDateTime(value: Long?): LocalDateTime? {
         return value?.let {
-            LocalDateTime.ofInstant(Instant.ofEpochSecond(it), ZoneId.systemDefault())
+            LocalDateTime.ofEpochSecond(it, 0, ZoneOffset.UTC)
         }
     }
 }
