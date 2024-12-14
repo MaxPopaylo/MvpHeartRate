@@ -31,7 +31,6 @@ import kotlinx.coroutines.delay
 import kotlin.random.Random
 
 @SuppressLint("PermissionLaunchedDuringComposition")
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun LoadingScreen(
     navController: NavHostController,
@@ -39,17 +38,11 @@ fun LoadingScreen(
 ) {
     val progress = viewModel.loadingProgress
     val nextDestination = viewModel.nextDestination
-    val cameraPermissionState: PermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
 
     LaunchedEffect(Unit) {
         viewModel.updateDestinationRoute()
     }
 
-    LaunchedEffect(cameraPermissionState.status) {
-        if (!cameraPermissionState.status.isGranted) {
-            cameraPermissionState.launchPermissionRequest()
-        }
-    }
 
     LaunchedEffect(key1 = Unit) {
         while (progress.value < 1f) {

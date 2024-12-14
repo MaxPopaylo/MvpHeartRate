@@ -15,6 +15,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -25,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.mvpheartrate.R
+import com.example.mvpheartrate.presentation.common.composable.PermissionAlertDialog
 import com.example.mvpheartrate.presentation.common.navigation.HomePageScreens
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.colors
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.images
@@ -40,6 +45,9 @@ fun WaitingScreen(
     navController: NavHostController
 ) {
     val cameraPermissionState: PermissionState = rememberPermissionState(android.Manifest.permission.CAMERA)
+    var showPermissionDialog by remember {
+        mutableStateOf(false)
+    }
 
     Column(
         modifier = Modifier
@@ -86,9 +94,10 @@ fun WaitingScreen(
                 modifier = Modifier
                     .fillMaxSize(),
                 onClick = {
-
                     if (cameraPermissionState.status.isGranted) {
                         navController.navigate(HomePageScreens.PulseMeasurementScreen)
+                    } else {
+                        showPermissionDialog = true
                     }
                 }
             ) {
@@ -114,5 +123,12 @@ fun WaitingScreen(
             }
 
         }
+    }
+
+    if (showPermissionDialog) {
+        PermissionAlertDialog(
+            onDismiss = { showPermissionDialog = false },
+            getPermission = {cameraPermissionState.launchPermissionRequest()}
+        )
     }
 }
