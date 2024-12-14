@@ -32,7 +32,7 @@ fun HealthStatusSectionCard(
     ) {
         Row(
             modifier = Modifier
-                .weight(0.8f)
+                .weight(1f)
                 .background(
                     color = colors.secondaryBackground,
                     shape = RoundedCornerShape(8.dp)

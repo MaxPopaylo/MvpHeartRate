@@ -1,6 +1,5 @@
 package com.example.mvpheartrate.presentation.screen.result_history
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mvpheartrate.domain.models.BpmData
