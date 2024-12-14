@@ -1,17 +1,18 @@
-package com.example.mvpheartrate.presentation.screen.result.composable
+package com.example.mvpheartrate.presentation.screen.result_history.composable
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,16 +25,11 @@ import com.example.mvpheartrate.domain.models.BpmData
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.colors
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.typography
 import com.example.mvpheartrate.presentation.common.util.LocalDateTimeFormatter
-import com.example.mvpheartrate.presentation.screen.result.models.HealthStatusSection
 
 @Composable
-fun ResultCard(
-    bpmData: BpmData,
-    sectionList: List<HealthStatusSection>,
-    currentSection: HealthStatusSection,
-    currentProgress: Float
+fun ResultListCard(
+    bpmData: BpmData
 ) {
-
     Column(
         modifier = Modifier
             .height(IntrinsicSize.Max)
@@ -46,7 +42,7 @@ fun ResultCard(
                 color = Color(0xFFECF7FF),
                 shape = RoundedCornerShape(20.dp)
             )
-            .padding(24.dp),
+            .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         Row(
@@ -55,47 +51,52 @@ fun ResultCard(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "Ваш результат",
+                    text = "${bpmData.bpm} BPM",
                     color = colors.primaryText,
-                    style = typography.w600.copy(
-                        fontSize = 16.sp
-                    )
-                )
-                Text(
-                    text = currentSection.text,
-                    color = currentSection.color,
-                    style = typography.w700.copy(
-                        fontSize = 22.sp
+                    style = typography.w400.copy(
+                        fontSize = 32.sp
                     )
                 )
             }
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            Box (
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .width(5.dp)
+                    .background(
+                        color = colors.primaryTint,
+                        shape = RoundedCornerShape(8.dp)
+                    )
+            )
+
+            Box(
+                Modifier
+                    .weight(1f)
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = Icons.Default.Refresh,
-                    contentDescription = "Time",
-                    tint = colors.secondaryText
-                )
+
                 Column {
                     Text(
                         text = LocalDateTimeFormatter.getTime(bpmData.time),
                         color = colors.secondaryText,
                         style = typography.w400.copy(
-                            fontSize = 12.sp
+                            fontSize = 20.sp
                         )
                     )
                     Text(
                         text = LocalDateTimeFormatter.getDate(bpmData.time),
                         color = colors.secondaryText,
                         style = typography.w400.copy(
-                            fontSize = 12.sp
+                            fontSize = 20.sp
                         )
                     )
                 }
@@ -103,22 +104,5 @@ fun ResultCard(
 
         }
 
-        HeartRateBpmHealthStatusIndicator(
-            progress = currentProgress,
-            sectionList = sectionList
-        )
-
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
-        ) {
-            sectionList.forEach { section ->
-                HealthStatusSectionCard(
-                    section = section,
-                    itCurrent = (section == currentSection)
-                )
-            }
-        }
     }
 }
-

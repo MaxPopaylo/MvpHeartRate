@@ -1,6 +1,5 @@
 package com.example.mvpheartrate.presentation.screen.result
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableFloatStateOf
@@ -67,7 +66,6 @@ class ResultViewModel @Inject constructor(
             else -> _sectionList.value[2]
         }
     }
-
 
     fun saveResult(bpmData: BpmData) {
         viewModelScope.launch {
