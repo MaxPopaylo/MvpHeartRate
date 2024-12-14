@@ -1,5 +1,11 @@
 package com.example.mvpheartrate.presentation.screen.homepage.pulse_measurment
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,7 +30,6 @@ import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.colors
 import com.example.mvpheartrate.presentation.screen.homepage.pulse_measurment.composable.HeartRateDisplay
 import com.example.mvpheartrate.presentation.screen.homepage.pulse_measurment.composable.MeasurementInfo
 import com.example.mvpheartrate.presentation.screen.homepage.pulse_measurment.composable.PulseMeasurementHeader
-
 @Composable
 fun PulseMeasurementScreen(
     navController: NavHostController,
@@ -34,11 +39,17 @@ fun PulseMeasurementScreen(
     val fingerDetected = viewModel.fingerDetectedFlow.collectAsState()
     val showResultState = viewModel.showResultState
     val progress = viewModel.loadingProgress
+    val isVisible = viewModel.isVisible
+
+    LaunchedEffect(Unit) {
+        viewModel.updateIsVisible(true)
+    }
 
     LaunchedEffect(viewModel) {
         viewModel.bpmResult.collect { result ->
             if (result.bpm > 0) {
-                navController.navigate(HomePageScreens.ResultScreen) {
+                viewModel.updateIsVisible(false)
+                navController.navigate(HomePageScreens.ResultScreen(result)) {
                     popUpTo(HomePageScreens.PulseMeasurementScreen) {
                         inclusive = true
                     }
@@ -66,6 +77,7 @@ fun PulseMeasurementScreen(
    ) {
        IconButton(
            onClick = {
+               viewModel.updateIsVisible(false)
                viewModel.stopHeartRateMeasurement()
                navController.popBackStack()
            }
@@ -86,26 +98,61 @@ fun PulseMeasurementScreen(
                horizontalAlignment = Alignment.CenterHorizontally,
                verticalArrangement = Arrangement.SpaceBetween
            ) {
-               PulseMeasurementHeader(
-                   fingerDetected = fingerDetected.value,
-                   onMeasurementStart = {
-                       viewModel.startHeartRateMeasurement(it)
-                   },
-                   onDispose = {
-                       viewModel.stopHeartRateMeasurement()
-                   }
-               )
+//               if (isVisible) {
+//                   PulseMeasurementHeader(
+//                       fingerDetected = fingerDetected.value,
+//                       onMeasurementStart = {
+//                           viewModel.startHeartRateMeasurement(it)
+//                       },
+//                       onDispose = {
+//                           viewModel.stopHeartRateMeasurement()
+//                       }
+//                   )
+//               }
+
+               AnimatedVisibility(
+                   visible = isVisible.value,
+                   enter = fadeIn(animationSpec = tween(700)) + slideInVertically(),
+                   exit = fadeOut(animationSpec = tween(500)) + slideOutVertically()
+               ) {
+                   PulseMeasurementHeader(
+                       fingerDetected = fingerDetected.value,
+                       onMeasurementStart = {
+                           viewModel.startHeartRateMeasurement(it)
+                       },
+                       onDispose = {
+                           viewModel.stopHeartRateMeasurement()
+                       }
+                   )
+               }
 
                HeartRateDisplay(
                    bpmCounter = bpmCounter.value,
                    isAnimated = fingerDetected.value
                )
 
-               MeasurementInfo(
-                   showResultState = showResultState.value,
-                   fingerDetected = fingerDetected.value,
-                   progress = progress.value
-               )
+               AnimatedVisibility(
+                   visible = isVisible.value,
+                   enter = fadeIn(animationSpec = tween(700)) + slideInVertically(),
+                   exit = fadeOut(animationSpec = tween(500)) + slideOutVertically()
+               ) {
+                   MeasurementInfo(
+                       showResultState = showResultState.value,
+                       fingerDetected = fingerDetected.value,
+                       progress = progress.value
+                   )
+               }
+
+//               Crossfade(targetState = isVisible, label = "") { visible ->
+//                   if (visible) {
+//                       MeasurementInfo(
+//                           showResultState = showResultState.value,
+//                           fingerDetected = fingerDetected.value,
+//                           progress = progress.value
+//                       )
+//                   }
+//               }
+
            }
 
            Box(

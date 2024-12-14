@@ -1,5 +1,6 @@
 package com.example.mvpheartrate.presentation.common.navigation
 
+import com.example.mvpheartrate.domain.models.BpmData
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -23,7 +24,7 @@ sealed class HomePageScreens {
     data object PulseMeasurementScreen: HomePageScreens()
 
     @Serializable
-    data object ResultScreen: HomePageScreens()
+    data class ResultScreen(val result: BpmData) : HomePageScreens()
 
     @Serializable
     data object ResultListScreen: HomePageScreens()

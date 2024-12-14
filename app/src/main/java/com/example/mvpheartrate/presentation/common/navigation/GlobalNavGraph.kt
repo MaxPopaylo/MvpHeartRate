@@ -20,11 +20,18 @@ fun GlobalNavGraph(navController: NavHostController) {
         composable<NavScreens.LoadingScreen>(
             enterTransition = {
                 return@composable  fadeIn(
-                    animationSpec = tween(700)
+                    animationSpec = tween(500)
                 )
             },
             exitTransition = {
-                fadeOut(tween(500))
+                return@composable fadeOut(
+                    animationSpec = tween(300)
+                )
+            },
+            popExitTransition = {
+                return@composable fadeOut(
+                    animationSpec = tween(300)
+                )
             }
         ) {
             LoadingScreen(
@@ -35,11 +42,18 @@ fun GlobalNavGraph(navController: NavHostController) {
         composable<NavScreens.OnboardingScreen>(
             enterTransition = {
                 return@composable  fadeIn(
-                    animationSpec = tween(700)
+                    animationSpec = tween(500)
                 )
             },
             exitTransition = {
-                fadeOut(tween(500))
+                return@composable fadeOut(
+                    animationSpec = tween(300)
+                )
+            },
+            popExitTransition = {
+                return@composable fadeOut(
+                    animationSpec = tween(300)
+                )
             }
         ) {
             OnboardingScreen(
@@ -50,11 +64,18 @@ fun GlobalNavGraph(navController: NavHostController) {
         composable<NavScreens.HomepageScreen>(
             enterTransition = {
                 return@composable  fadeIn(
-                    animationSpec = tween(700)
+                    animationSpec = tween(500)
                 )
             },
             exitTransition = {
-                fadeOut(tween(500))
+                return@composable fadeOut(
+                    animationSpec = tween(300)
+                )
+            },
+            popExitTransition = {
+                return@composable fadeOut(
+                    animationSpec = tween(300)
+                )
             }
         ) {
             HomepageScreen()

@@ -19,6 +19,7 @@ class HeartRateMonitorImpl: HeartRateMonitor {
     private var lastBpm = 0
     private var result = 0
     private var timer: CountDownTimer? = null
+    private var withAverageAfterSeconds = 3
 
     private var timerProgress = 0
     private var timerMaxSeconds: Long = 15L
@@ -48,7 +49,7 @@ class HeartRateMonitorImpl: HeartRateMonitor {
          kalman.error_cov_post = kalman.error_cov_post.identity()
 
          bpmUpdates = HeartRateOmeter()
-             .withAverageAfterSeconds(3)
+             .withAverageAfterSeconds(withAverageAfterSeconds)
              .setFingerDetectionListener { detected ->
                  coroutineScope.launch {
                      onFingerDetectedState(detected)
@@ -90,15 +91,16 @@ class HeartRateMonitorImpl: HeartRateMonitor {
         onResult: (BpmData) -> Unit,
         onTimerProgress: (Pair<Long, Int>) -> Unit
     ) {
-        val maxTime = timerMaxSeconds * 1000
-        timer = object : CountDownTimer(maxTime, 1000) {
+        val maxTime = timerMaxSeconds + withAverageAfterSeconds
+        val timerTime = maxTime * 1000
+        timer = object : CountDownTimer(timerTime, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 if (lastBpm != 0) {
                     bpmList.add(lastBpm)
                 }
 
                 timerProgress += 1
-                onTimerProgress(Pair(timerMaxSeconds, timerProgress))
+                onTimerProgress(Pair(maxTime, timerProgress))
             }
 
             override fun onFinish() {

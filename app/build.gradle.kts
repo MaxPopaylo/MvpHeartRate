@@ -55,6 +55,10 @@ android {
 }
 
 dependencies {
+    // MARK: - DataStore
+    implementation(libs.datastore.preferences)
+    implementation(libs.datastore)
+
     // MARK: - Hilt (dagger/hilt)
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
@@ -78,6 +82,10 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.compose.animation)
+
+    // MARK: - Room
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

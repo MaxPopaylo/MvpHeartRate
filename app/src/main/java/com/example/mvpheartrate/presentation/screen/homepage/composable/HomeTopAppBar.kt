@@ -4,13 +4,12 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -19,10 +18,14 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.mvpheartrate.R
 import com.example.mvpheartrate.presentation.common.navigation.HomePageScreens
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.colors
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.typography
@@ -37,13 +40,13 @@ fun HomepageTopAppBar(
     val currentRoute = navBackStackEntry?.destination?.route
 
     val title = when(currentRoute) {
-        HomePageScreens.ResultScreen::class.qualifiedName -> "Результат"
+        HomePageScreens.ResultScreen::class.qualifiedName + "/{result}" -> "Результат"
         HomePageScreens.ResultListScreen::class.qualifiedName -> "Історія"
         else -> ""
     }
 
     val isHaveActions: Boolean = when(currentRoute) {
-        HomePageScreens.ResultScreen::class.qualifiedName -> true
+        HomePageScreens.ResultScreen::class.qualifiedName + "/{result}" -> true
         HomePageScreens.WaitingScreen::class.qualifiedName -> true
         else -> false
     }
@@ -55,22 +58,14 @@ fun HomepageTopAppBar(
 
     val topBarDestination = listOf(
         HomePageScreens.WaitingScreen::class.qualifiedName,
-        HomePageScreens.ResultScreen::class.qualifiedName,
+        HomePageScreens.ResultScreen::class.qualifiedName + "/{result}",
         HomePageScreens.ResultListScreen::class.qualifiedName
     ).contains(currentRoute)
 
     onTopPaddingChange(topBarDestination)
 
-    AnimatedVisibility(
-        visible = topBarDestination,
-        enter = fadeIn(animationSpec = tween(500)) + slideInVertically(initialOffsetY = { -it }),
-        exit = fadeOut(animationSpec = tween(1000)) + slideOutVertically(targetOffsetY = { -it })
-    ) {
+    if (topBarDestination) {
         TopAppBar(
-            windowInsets  = WindowInsets(
-                top = 0.dp,
-                bottom = 0.dp
-            ),
             colors = TopAppBarDefaults.mediumTopAppBarColors(
                 containerColor = colors.primaryTint,
                 titleContentColor = colors.tertiaryText
@@ -101,7 +96,9 @@ fun HomepageTopAppBar(
                             navController.navigate(HomePageScreens.ResultListScreen)
                         }
                     ) {
-                        Row {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Text(
                                 text = "Історія",
                                 color = colors.tertiaryText,
@@ -109,8 +106,11 @@ fun HomepageTopAppBar(
                                     fontSize = 20.sp
                                 )
                             )
+                            Spacer(modifier = Modifier.width(4.dp))
                             Icon(
-                                imageVector = Icons.Filled.Refresh,
+                                modifier = Modifier
+                                    .size(34.dp),
+                                painter = painterResource(R.drawable.history_icon),
                                 tint = colors.tertiaryText,
                                 contentDescription = "History"
                             )

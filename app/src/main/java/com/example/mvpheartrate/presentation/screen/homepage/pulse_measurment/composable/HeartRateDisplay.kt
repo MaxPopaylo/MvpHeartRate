@@ -1,5 +1,9 @@
 package com.example.mvpheartrate.presentation.screen.homepage.pulse_measurment.composable
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.compose.animation.core.animate
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.animateIntAsState
@@ -22,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -32,12 +37,19 @@ import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.colors
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.typography
 import kotlinx.coroutines.delay
 
+@SuppressLint("ServiceCast")
 @Composable
 fun HeartRateDisplay(
     modifier: Modifier = Modifier,
     isAnimated: Boolean,
     bpmCounter: Int
 ) {
+    val context = LocalContext.current
+    val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    val vibrationEffect = VibrationEffect.createOneShot(
+        100,
+        VibrationEffect.DEFAULT_AMPLITUDE
+    )
     val bpm by animateIntAsState(
         targetValue = bpmCounter,
         animationSpec = tween(durationMillis = 600),
@@ -52,6 +64,7 @@ fun HeartRateDisplay(
 
     LaunchedEffect(isAnimated) {
         while (isAnimated) {
+            vibrator.vibrate(vibrationEffect)
             animate(
                 initialValue = 1f,
                 targetValue = 1.02f,
@@ -65,7 +78,7 @@ fun HeartRateDisplay(
                 animationSpec = tween(durationMillis = 300),
                 block = { value, _ -> scale = value }
             )
-            delay(500)
+            delay(300)
         }
     }
 
@@ -89,7 +102,7 @@ fun HeartRateDisplay(
                     .offset(y = Dp(50f))
                     .fillMaxWidth()
                     .blur(
-                        radius = 36.dp
+                        radius = 24.dp
                     )
             )
         }
