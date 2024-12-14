@@ -1,6 +1,5 @@
 package com.example.mvpheartrate.presentation.screen.loading
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,14 +22,9 @@ import com.example.mvpheartrate.presentation.common.navigation.NavScreens
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.colors
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.images
 import com.example.mvpheartrate.presentation.common.theme.HeartRateTheme.typography
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.PermissionState
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.delay
 import kotlin.random.Random
 
-@SuppressLint("PermissionLaunchedDuringComposition")
 @Composable
 fun LoadingScreen(
     navController: NavHostController,
@@ -42,7 +36,6 @@ fun LoadingScreen(
     LaunchedEffect(Unit) {
         viewModel.updateDestinationRoute()
     }
-
 
     LaunchedEffect(key1 = Unit) {
         while (progress.value < 1f) {
